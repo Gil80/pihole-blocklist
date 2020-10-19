@@ -5,7 +5,6 @@ The hosts file is the same as stlblock.txt but is using 127.0.0.1 instead of 0.0
 
 Steps to my build:
 1. Install Pihole on RaspberryOS
-2. Install Log2RAM https://github.com/azlux/log2ram
 3. Enable DNSSEC
 4. Install https://developers.cloudflare.com/1.1.1.1/dns-over-https
 5. Use 1.1.1.2 and 1.0.0.2
