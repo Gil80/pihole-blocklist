@@ -45405,7 +45405,6 @@
 0.0.0.0	www.xmlsweb.com
 0.0.0.0	www.xmovienow.com
 0.0.0.0	www.xnetfitzy.net
-0.0.0.0	www.xnxx.com
 0.0.0.0	www.xnxxpictures.com
 0.0.0.0	www.xnylon.com
 0.0.0.0	www.xoftspy.net
