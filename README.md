@@ -38,15 +38,25 @@ Back on the main page of the instance:
 7. scroll down and click “VNIC” on the left in the side bar under Resources and edit your VNIC.
 8. Check “Skip source/destination check”
 9. Remove IPtables restrictions
+
 $ sudo iptables -L 
+
 Then I saved the rules to a file so I could add the relevant ones back later:
+
 $ sudo iptables-save > ~/iptables-rules 
+
 Then I ran these rules to effectively disable iptables
+
 by allowing all traffic through:
+
 $ iptables -P INPUT ACCEPT $ iptables -P OUTPUT ACCEPT $ iptables -P FORWARD ACCEPT $ iptables -F 
+
 To clear all iptables rules at once, run this command:
+
 $ iptables --flush 
+
 10. Install Pihole and do not enable DNSSEC
+
 11. Once done, install PiVPN $ curl -L https://install.pivpn.io | bash and follow the instructions
 
 
