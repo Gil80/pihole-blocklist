@@ -87,7 +87,8 @@ cd $unboundversion
 sudo apt-get update && sudo apt-get upgrade
 sudo update-ca-certificates
 
-sudo ./configure --prefix=/usr --sysconfdir=/etc --with-conf-file=/etc/unbound/unbound.conf --with-username=unbound --with-pthreads --with-libevent --enable-cachedb --disable-static --with-libnghttp2
+sudo ./configure --prefix=/usr --sysconfdir=/etc --with-conf-file=/etc/unbound/unbound.conf --with-username=unbound --with-pthreads --with-libevent --enable-cachedb --disable-static
+sudo apt-get install libnghttp2-dev
 
 sudo make
 
@@ -218,8 +219,8 @@ tail -n 20 /etc/unbound/unbound.log
 
 -- Test DNSSEC validation --
 
-dig sigfail.verteiltesysteme.net @127.10.10.1 -p 5353
-dig sigok.verteiltesysteme.net @127.10.10.1 -p 5353
+dig sigfail.verteiltesysteme.net @127.0.0.1 -p 5300
+dig sigok.verteiltesysteme.net @127.0.0.1 -p 5300
 
 The first command should give a status report of SERVFAIL and no IP
 address. The second should give NOERROR plus an IP address.
