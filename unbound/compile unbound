@@ -50,7 +50,7 @@ sudo apt-get install build-essential bison flex libssl-dev libexpat1-dev libeven
 
 sudo nano /etc/logrotate.d/unbound
 
-/etc/unbound/unbound.log {
+/var/log/unbound/unbound.log {
 compress
 delaycompress
 missingok
