@@ -1,3 +1,6 @@
+Read this first to see where to change folder names to have things in /var/sbin or /var/bin
+https://www.systutorials.com/docs/linux/man/8-unbound-anchor/
+
 Compile, configure and install Unbound for Pi-hole on Raspbian 10 (buster)
 
     with libevent for many outgoing ports (outgoing-range, num-queries-per-thread)
