@@ -57,11 +57,11 @@ $ iptables --flush
 
 10. Install Pihole and do not enable DNSSEC
 
-#        IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          #
-#                      /etc/pihole/setupVars.conf                             #
-#                                                                             #
-#        ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           #
-#                    WITHIN /etc/dnsmasq.d/yourname.conf
+        IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          
+                      /etc/pihole/setupVars.conf                             
+                                                                             
+        ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           
+                    WITHIN /etc/dnsmasq.d/yourname.conf
 
 11. Create a file in /etc/dnsmasq.d/yourname.conf
 12. Inside the file type: server=127.0.0.1#5335
