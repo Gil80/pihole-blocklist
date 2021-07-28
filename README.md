@@ -57,7 +57,38 @@ $ iptables --flush
 
 10. Install Pihole and do not enable DNSSEC
 
-11. Once done, install PiVPN $ curl -L https://install.pivpn.io | bash and follow the instructions
+#        IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          #
+#                      /etc/pihole/setupVars.conf                             #
+#                                                                             #
+#        ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           #
+#                    WITHIN /etc/dnsmasq.d/yourname.conf
+
+11. Create a file in /etc/dnsmasq.d/yourname.conf
+12. Inside the file type: server=127.0.0.1#5335
+13. Once done, install PiVPN $ curl -L https://install.pivpn.io | bash and follow the instructions
+
+Disable resolvconf for unbound (optional)¶
+
+**UNBOUND**
+The unbound package can come with a systemd service called unbound-resolvconf.service and default enabled. It instructs resolvconf to write unbound's own DNS service at nameserver 127.0.0.1 , but without the 5335 port, into the file /etc/resolv.conf. That /etc/resolv.conf file is used by local services/processes to determine DNS servers configured. If you configured /etc/dhcpcd.conf with a static domain_name_servers= line, these DNS server(s) will be ignored/overruled by this service.
+
+To check if this service is enabled for your distribution, run below one and take note of the the Active line. It will show either active or inactive or it might not even be installed resulting in a could not be found message:
+
+`sudo systemctl status unbound-resolvconf.service`
+
+To disable the service if so desire, run below two:
+
+`sudo systemctl disable unbound-resolvconf.service`
+
+`sudo systemctl stop unbound-resolvconf.service`
+
+To have the domain_name_servers= in the file /etc/dhcpcd.conf activated/propagate, run below one:
+
+`sudo systemctl restart dhcpcd`
+
+And check with below one if IP(s) on the nameserver line(s) reflects the ones in the /etc/dhcpcd.conf file:
+
+`cat /etc/resolv.conf`
 
 
 Creating A DNS Only Tunnel / Split-Tunnel in WireGuard
