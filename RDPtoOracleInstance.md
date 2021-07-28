@@ -22,3 +22,7 @@ run command: `vncserver :1 -geometry 1024x768`
 This is an example of tunnling to my oracle instance after setting up VNC: `ssh -L 5902:localhost:5902 -i ~/.ssh/ssh-key-2021-07-27.key ubuntu@140.238.203.129`
 
 Download VNC viewer and in the address set: `localhost:5902`
+
+
+Alternatives:
+https://www.floydimus.prismo.net/Floydimus/hostsv2
