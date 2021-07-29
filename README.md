@@ -115,10 +115,14 @@ What does this do? By setting AllowedIPs to be equal to the pihole IP, it will o
 **Specifically for Oracle cloud PiVPN**
 1. `sudo -i`
 2. go to `/etc/wireguard`
-3. edit wg0.conf ```PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+3. edit wg0.conf
+```
+PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-``` below the `interface`
+``` 
+below the `interface`
+
 4. Save
 5. `sudo iptables -L` 
 6. `sudo iptables-save > ~/iptables-rules` //Then I saved the rules to a file so I could add the relevant ones back later
