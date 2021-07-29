@@ -55,6 +55,7 @@ To clear all iptables rules at once, run this command:
 
 $ iptables --flush 
 
+
 10. Install Pihole and do not enable DNSSEC
 
         IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          
@@ -62,14 +63,12 @@ $ iptables --flush
                                                                              
         ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           
                     WITHIN /etc/dnsmasq.d/yourname.conf
+11. Install unbound
+12. Create a file in /etc/dnsmasq.d/yourname.conf
+13. Inside the file type: server=127.0.0.1#5335
 
-11. Create a file in /etc/dnsmasq.d/yourname.conf
-12. Inside the file type: server=127.0.0.1#5335
-13. Once done, install PiVPN $ curl -L https://install.pivpn.io | bash and follow the instructions
 
-Disable resolvconf for unbound (optional)¶
-
-**UNBOUND**
+**Disable resolvconf for unbound (optional)**
 
 The unbound package can come with a systemd service called unbound-resolvconf.service and default enabled. It instructs resolvconf to write unbound's own DNS service at nameserver 127.0.0.1 , but without the 5335 port, into the file /etc/resolv.conf. That /etc/resolv.conf file is used by local services/processes to determine DNS servers configured. If you configured /etc/dhcpcd.conf with a static domain_name_servers= line, these DNS server(s) will be ignored/overruled by this service.
 
@@ -92,10 +91,11 @@ And check with below one if IP(s) on the nameserver line(s) reflects the ones in
 `cat /etc/resolv.conf`
 
 
-Creating A DNS Only Tunnel / Split-Tunnel in WireGuard
+14. Once done, install PiVPN $ curl -L https://install.pivpn.io | bash and follow the instructions
+
+**Creating A DNS Only Tunnel / Split-Tunnel in WireGuard**
 
 Obviously with WireGuard we can create a full tunnel, but with this setup we likely just want to reduce this to DNS traffic.
-
 How do we do this? Limit AllowedIPs in your wireguard client configuration.
 
 Example client configuration:
