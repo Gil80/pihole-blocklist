@@ -100,15 +100,16 @@ How do we do this? Limit AllowedIPs in your wireguard client configuration.
 
 Example client configuration:
 
-[Interface]
-PrivateKey = <YOUR PRIVATE KEY>
+```[Interface]
+PrivateKey = <YOUR PRIVATE KEY>  
 Address = 10.6.0.3/24 # This is the assignable range for this client
-DNS = 10.6.0.1 # This is the IP of pihole.[Peer]
-PublicKey = <YOUR PUBLIC KEY>
-PresharedKey = <YOUR PRESHARED KEY>
-AllowedIPs = 10.6.0.1/32 # Important part 0 Set it to DNS IP above.
+DNS = 10.6.0.1 # This is the IP of pihole.[Peer]    
+PublicKey = <YOUR PUBLIC KEY>    
+PresharedKey = <YOUR PRESHARED KEY>    
+AllowedIPs = 10.6.0.1/32 # Important part 0 Set it to DNS IP above.    
 Endpoint = <YOUR PIHOLE PUBLIC IP>:51820 
-
 What does this do? By setting AllowedIPs to be equal to the pihole IP, it will only allow traffic that is directed at our DNS (i.e. pihole) to be sent through the tunnel. Effectively creating a split-tunnel.
+```
+
 
     
