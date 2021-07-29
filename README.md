@@ -106,10 +106,28 @@ Address = 10.6.0.3/24 # This is the assignable range for this client
 DNS = 10.6.0.1 # This is the IP of pihole.[Peer]    
 PublicKey = <YOUR PUBLIC KEY>    
 PresharedKey = <YOUR PRESHARED KEY>    
-AllowedIPs = 10.6.0.1/32 # Important part 0 Set it to DNS IP above.    
+AllowedIPs = 10.6.0.1/32 # Important part - Set it to DNS IP above.    
 Endpoint = <YOUR PIHOLE PUBLIC IP>:51820 
-What does this do? By setting AllowedIPs to be equal to the pihole IP, it will only allow traffic that is directed at our DNS (i.e. pihole) to be sent through the tunnel. Effectively creating a split-tunnel.
+What does this do? By setting AllowedIPs to be equal to the pihole IP, it will only allow traffic that is directed at our DNS 
+(i.e. pihole) to be sent through the tunnel. Effectively creating a split-tunnel.
 ```
+
+**Specifically for Oracle cloud PiVPN**
+1. `sudo -i`
+2. go to `/etc/wireguard`
+3. edit wg0.conf ```PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+``` below the `interface`
+4. Save
+5. `sudo iptables -L` 
+6. `sudo iptables-save > ~/iptables-rules` //Then I saved the rules to a file so I could add the relevant ones back later
+7. Then I ran these rules to effectively disable iptablesby allowing all traffic through:
+8. `iptables -P INPUT ACCEPT`
+9. `iptables -P OUTPUT ACCEPT`
+10. `iptables -P FORWARD ACCEPT`
+11. `iptables -F`
+12. To clear all iptables rules at once, run this command:`iptables --flush`
 
 
     
