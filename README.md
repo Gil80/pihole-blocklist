@@ -34,6 +34,13 @@ Rule 1:
     Description: WireGuard UDP
     Click the blue “Add Ingress Rules” button.
 
+Rule 2:
+    Add an ingress rule for HTTP access:
+    soucre type: CIDR
+    0.0.0.0/0
+    TCP
+    Destination port: 80
+   
 Back on the main page of the instance:
 7. scroll down and click “VNIC” on the left in the side bar under Resources and edit your VNIC.
 8. Check “Skip source/destination check”
@@ -49,7 +56,10 @@ Then I ran these rules to effectively disable iptables
 
 by allowing all traffic through:
 
-$ iptables -P INPUT ACCEPT $ iptables -P OUTPUT ACCEPT $ iptables -P FORWARD ACCEPT $ iptables -F 
+$ iptables -P INPUT ACCEPT
+$ iptables -P OUTPUT ACCEPT
+$ iptables -P FORWARD ACCEPT
+$ iptables -F 
 
 To clear all iptables rules at once, run this command:
 
