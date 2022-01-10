@@ -105,7 +105,8 @@ sudo make install
 sudo rm /etc/unbound/unbound.conf
 sudo nano /etc/unbound/unbound.conf
 
-server:
+
+```server:
 # mandatory settings - do not change
 tls-cert-bundle: "/etc/ssl/certs/ca-certificates.crt"
 chroot: "/etc/unbound"
@@ -192,7 +193,7 @@ RestartSec=30
 
 [Install]
 WantedBy=multi-user.target
-
+```
 -- Install Unbound service (ONLY ON FIRST INSTALLATION/COMPILATION) --
 
 sudo systemctl daemon-reload
