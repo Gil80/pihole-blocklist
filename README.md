@@ -158,7 +158,7 @@ To clear all iptables rules at once, run this command:
 ```
 #!/bin/bash
 
-DNS_SERVER='type in the instance public ip'
+DNS_SERVER='169.254.169.254` # that's oracle's built in dns server
 DNS_SEARCH=$(grep '^search ' /etc/resolv.conf)
 systemctl disable systemd-resolved
 systemctl stop systemd-resolved
