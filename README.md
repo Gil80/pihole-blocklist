@@ -158,7 +158,7 @@ To clear all iptables rules at once, run this command:
 ```
 #!/bin/bash
 
-DNS_SERVER='public instnace ip'
+DNS_SERVER='type in the instance public ip'
 DNS_SEARCH=$(grep '^search ' /etc/resolv.conf)
 systemctl disable systemd-resolved
 systemctl stop systemd-resolved
