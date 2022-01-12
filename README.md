@@ -1,4 +1,5 @@
-# pihole-blocklist
+# Pihole on Oracle + PiVPN + Unbound
+
 The session-reply and host file were taken from https://switchedtolinux.com/privacy-resources/
 
 The hosts file is the same as stlblock.txt but is using 127.0.0.1 instead of 0.0.0.0. The 0.0.0.0 is for pi-hole and to apply to the entire LAN.
@@ -21,9 +22,11 @@ Steps to my cloud build Pihole + WireGuard + Unbound
 3. Select Ubuntu 20.04
 4. Validate public IP will be available
 5. Generate SSH keys and paste them before creating the image
-6. Once image created, when viewing your instance in the control panel, under “Primary VNIC” click “Public Subnet”
-    Then click “Default Security List for vnc-0000000”
-    Click “Add Ingress Rules”
+6. Once image created, when viewing your instance in the control panel, under **Primary VNIC** click:
+    1. Public Subnet
+    2. Then click “Default Security List for vnc-0000000”
+    3. Click “Add Ingress Rules”
+
 
 Rule 1:
 
@@ -35,47 +38,36 @@ Rule 1:
     Click the blue “Add Ingress Rules” button.
 
 Rule 2:
-    Add an ingress rule for HTTP access:
+    
+
+```
+Add an ingress rule for HTTP access:
     soucre type: CIDR
-    0.0.0.0/0
+    [public ip of the instance]/32
     TCP
     Destination port: 80
-   
-Back on the main page of the instance:
+```
+
+*Back on the main page of the instance:*
+
 7. scroll down and click “VNIC” on the left in the side bar under Resources and edit your VNIC.
 8. Check “Skip source/destination check”
-9. Remove IPtables restrictions
-
-$ sudo iptables -L 
-
-Then I saved the rules to a file so I could add the relevant ones back later:
-
-$ sudo iptables-save > ~/iptables-rules 
-
-Then I ran these rules to effectively disable iptables
-
-by allowing all traffic through:
-
-$ iptables -P INPUT ACCEPT
-$ iptables -P OUTPUT ACCEPT
-$ iptables -P FORWARD ACCEPT
-$ iptables -F 
-
-To clear all iptables rules at once, run this command:
-
-$ iptables --flush 
+9. Install Pihole and **do not** enable DNSSEC
 
 
-10. Install Pihole and do not enable DNSSEC
 
-        IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          
-                      /etc/pihole/setupVars.conf                             
-                                                                             
-        ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           
-                    WITHIN /etc/dnsmasq.d/yourname.conf
-11. Install unbound
-12. Create a file in /etc/dnsmasq.d/yourname.conf
-13. Inside the file type: server=127.0.0.1#5335
+```
+IF YOU WISH TO CHANGE THE UPSTREAM SERVERS, CHANGE THEM IN:          
+              /etc/pihole/setupVars.conf                             
+                                                                     
+ANY OTHER CHANGES SHOULD BE MADE IN A SEPARATE CONFIG FILE           
+            WITHIN /etc/dnsmasq.d/yourname.conf
+```
+
+
+10. Install unbound
+11. Create a file in /etc/dnsmasq.d/yourname.conf
+12. Inside the file type: server=127.0.0.1#5335
 
 
 **Disable resolvconf for unbound (optional)**
@@ -125,23 +117,55 @@ What does this do? By setting AllowedIPs to be equal to the pihole IP, it will o
 **Specifically for Oracle cloud PiVPN**
 1. `sudo -i`
 2. go to `/etc/wireguard`
-3. edit wg0.conf and add the below lines under the `interface` section
+3. edit **wg0.conf** and add the below lines under the `interface` section
 ```
 PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-``` 
+```
 
 
 4. Save
-5. `sudo iptables -L` 
-6. `sudo iptables-save > ~/iptables-rules` //Then I saved the rules to a file so I could add the relevant ones back later
-7. Then I ran these rules to effectively disable iptablesby allowing all traffic through:
-8. `iptables -P INPUT ACCEPT`
-9. `iptables -P OUTPUT ACCEPT`
-10. `iptables -P FORWARD ACCEPT`
-11. `iptables -F`
-12. To clear all iptables rules at once, run this command:`iptables --flush`
+
+### Remove IPtables restrictions
+
+$ sudo iptables -L 
+
+Back up rulee:
+
+`sudo iptables-save > ~/iptables-rules`
+
+Then I ran these rules to effectively disable iptables
+
+by allowing all traffic through:
+
+`sudo iptables -P INPUT ACCEPT`
+
+`sudo iptables -P OUTPUT ACCEPT`
+
+`sudo iptables -P FORWARD ACCEPT`
+
+`sudo iptables -F` 
+
+To clear all iptables rules at once, run this command:
+
+`sudo iptables --flush` 
 
 
-    
+
+
+# Disable systemd-resolve
+```
+#!/bin/bash
+
+DNS_SERVER='public instnace ip'
+DNS_SEARCH=$(grep '^search ' /etc/resolv.conf)
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
+rm -f /etc/resolv.conf
+tee /etc/resolv.conf << EOM
+nameserver $DNS_SERVER
+options edns0
+$DNS_SEARCH
+EOM
+```
