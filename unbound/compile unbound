@@ -203,7 +203,7 @@ If encountering an error where the service is masked:
 If your service is masked it is symlinked to /dev/null
 You can verify by: # ls -l /etc/systemd/system/systemd-resolved.service
 
-To remove the mask simply run: # sudo systemctl unmask systemd-resolved
+To remove the mask simply run: # sudo systemctl unmask unbound.service
 
 Then
 
