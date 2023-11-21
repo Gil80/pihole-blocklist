@@ -35,7 +35,8 @@ net.ipv4.tcp_slow_start_after_idle = 0
 ```root    soft    nofile  100000
 root    hard    nofile  100000
 *       soft    nofile  25000
-*       hard    nofile  25000```
+*       hard    nofile  25000
+```
 
 ## Create Unbound group & user (ONLY ON FIRST INSTALLATION/COMPILATION)
 
@@ -62,7 +63,8 @@ minsize 500k
 rotate 2
 copytruncate
 create 644 unbound unbound
-}```
+}
+```
 
 `sudo shutdown -r now`
 
@@ -82,7 +84,8 @@ create 644 unbound unbound
 unboundversion=unbound-1.12.0
 wget https://nlnetlabs.nl/downloads/unbound/$unboundversion.tar.gz
 tar xzf $unboundversion.tar.gz
-cd $unboundversion```
+cd $unboundversion
+```
 
 ## Configure/Compile/Install Unbound
 
@@ -99,7 +102,7 @@ If Unbound is already installed and running, stop it:
 
 `sudo make install`
 
-## Unbound configuration file (ONLY ON FIRST INSTALLATION/COMPILATION) --
+## Unbound configuration file (ONLY ON FIRST INSTALLATION/COMPILATION)
 
 `sudo rm /etc/unbound/unbound.conf`
 `sudo nano /etc/unbound/unbound.conf`
@@ -148,7 +151,8 @@ master: 2620:0:2830:202::132 # iad.xfr.dns.icann.org
 fallback-enabled: yes
 for-downstream: no
 for-upstream: yes
-zonefile: "root.zone"```
+zonefile: "root.zone"
+```
 
 ## Enable root & server keys
 
@@ -189,7 +193,8 @@ Restart=on-failure
 RestartSec=30
 
 [Install]
-WantedBy=multi-user.target```
+WantedBy=multi-user.target
+```
 
 
 ## Install Unbound service (ONLY ON FIRST INSTALLATION/COMPILATION)
@@ -214,7 +219,7 @@ Then
 `sudo chown root:root /etc/unbound/unbound.conf`
 `sudo systemctl start unbound.service`
 
-## Check if Unbound is running --
+## Check if Unbound is running
 
 `sudo systemctl status unbound.service`
 
@@ -225,7 +230,7 @@ Then
 
 `tail -n 20 /var/log/unbound/unbound.log`
 
-## Test DNSSEC validation --
+## Test DNSSEC validation
 
 `dig sigfail.verteiltesysteme.net @127.0.0.1 -p 5335`
 `dig sigok.verteiltesysteme.net @127.0.0.1 -p 5335`
@@ -233,7 +238,7 @@ Then
 The first command should give a status report of SERVFAIL and no IP
 address. The second should give NOERROR plus an IP address.
 
--- Cleanup --
+## Cleanup
 
 `cd /tmp`
 `sudo rm -rf $unboundversion`
