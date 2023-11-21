@@ -32,7 +32,8 @@ net.ipv4.tcp_slow_start_after_idle = 0
 
 `sudo nano /etc/security/limits.conf`
 
-```root    soft    nofile  100000
+```
+root    soft    nofile  100000
 root    hard    nofile  100000
 *       soft    nofile  25000
 *       hard    nofile  25000
