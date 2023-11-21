@@ -74,11 +74,13 @@ create 644 unbound unbound
 ## Create Unbound data folder (ONLY ON FIRST INSTALLATION/COMPILATION) --
 
 `sudo mkdir /etc/unbound/`
+
 `sudo chown unbound:unbound /etc/unbound/`
 
 ## Update root.hints file
 
 `sudo wget https://www.internic.net/domain/named.root -O /etc/unbound/root.hints`
+
 `sudo chown unbound:unbound /etc/unbound/root.hints`
 
 ## Download Unbound sources
@@ -94,14 +96,17 @@ cd $unboundversion
 ## Configure/Compile/Install Unbound
 
 `sudo apt-get update && sudo apt-get upgrade`
+
 `sudo update-ca-certificates`
 
 `sudo ./configure --prefix=/usr --sysconfdir=/etc --with-conf-file=/etc/unbound/unbound.conf --with-username=unbound --with-pthreads --with-libevent --enable-cachedb --disable-static`
+
 `sudo apt-get install libnghttp2-dev`
 
 `sudo make`
 
 If Unbound is already installed and running, stop it:
+
 `sudo systemctl stop unbound.service`
 
 `sudo make install`
@@ -109,6 +114,7 @@ If Unbound is already installed and running, stop it:
 ## Unbound configuration file (ONLY ON FIRST INSTALLATION/COMPILATION)
 
 `sudo rm /etc/unbound/unbound.conf`
+
 `sudo nano /etc/unbound/unbound.conf`
 
 ```
@@ -181,7 +187,8 @@ zonefile: "root.zone"
 
 `sudo nano /lib/systemd/system/unbound.service`
 
-```[Unit]
+```
+[Unit]
 Description=Unbound DNS resolver
 After=network.target
 Before=nss-lookup.target pihole-FTL.service
@@ -205,23 +212,29 @@ WantedBy=multi-user.target
 ## Install Unbound service (ONLY ON FIRST INSTALLATION/COMPILATION)
 
 `sudo systemctl daemon-reload`
+
 `sudo systemctl enable unbound.service`
 
 If encountering an error where the service is masked:
 If your service is masked it is symlinked to /dev/null
-You can verify by: # `ls -l /etc/systemd/system/systemd-resolved.service`
+You can verify by:
+`ls -l /etc/systemd/system/systemd-resolved.service`
 
-To remove the mask simply run: # `sudo systemctl unmask unbound.service`
+To remove the mask simply run:
+`sudo systemctl unmask unbound.service`
 
 Then
 
 `sudo systemctl daemon-reload`
+
 `sudo systemctl enable unbound.service`
 
 ## Start Unbound
 
 `sudo chown unbound:unbound /etc/unbound/*`
+
 `sudo chown root:root /etc/unbound/unbound.conf`
+
 `sudo systemctl start unbound.service`
 
 ## Check if Unbound is running
@@ -230,7 +243,9 @@ Then
 
 ## create and check the log file
 `sudo mkdir -p /var/log/unbound`
+
 `sudo touch /var/log/unbound/unbound.log`
+
 `sudo chown unbound /var/log/unbound/unbound.log`
 
 `tail -n 20 /var/log/unbound/unbound.log`
@@ -238,6 +253,7 @@ Then
 ## Test DNSSEC validation
 
 `dig sigfail.verteiltesysteme.net @127.0.0.1 -p 5335`
+
 `dig sigok.verteiltesysteme.net @127.0.0.1 -p 5335`
 
 The first command should give a status report of SERVFAIL and no IP
@@ -246,8 +262,11 @@ address. The second should give NOERROR plus an IP address.
 ## Cleanup
 
 `cd /tmp`
+
 `sudo rm -rf $unboundversion`
+
 `sudo rm $unboundversion.tar.gz`
+
 `unboundversion=`
 
 To compile and install a new Unbound version follow the how-to from top to bottom again, skip the "ONLY ON FIRST INSTALLATION/COMPILATION" steps
