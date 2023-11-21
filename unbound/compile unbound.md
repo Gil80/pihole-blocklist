@@ -42,6 +42,7 @@ root    hard    nofile  100000
 ## Create Unbound group & user (ONLY ON FIRST INSTALLATION/COMPILATION)
 
 `sudo groupadd -g 991 unbound`
+
 `sudo useradd -g unbound -u 991 -M -d /etc/unbound -s /usr/sbin/nologin unbound`
 
 ## Install needed packages (ONLY ON FIRST INSTALLATION/COMPILATION)
@@ -54,7 +55,8 @@ root    hard    nofile  100000
 
 `sudo nano /etc/logrotate.d/unbound`
 
-```/var/log/unbound/unbound.log {
+```
+/var/log/unbound/unbound.log {
 compress
 delaycompress
 missingok
@@ -81,7 +83,8 @@ create 644 unbound unbound
 
 ## Download Unbound sources
 
-```cd /tmp
+```
+cd /tmp
 unboundversion=unbound-1.12.0
 wget https://nlnetlabs.nl/downloads/unbound/$unboundversion.tar.gz
 tar xzf $unboundversion.tar.gz
@@ -108,7 +111,8 @@ If Unbound is already installed and running, stop it:
 `sudo rm /etc/unbound/unbound.conf`
 `sudo nano /etc/unbound/unbound.conf`
 
-```server:
+```
+server:
 # mandatory settings - do not change
 tls-cert-bundle: "/etc/ssl/certs/ca-certificates.crt"
 chroot: "/etc/unbound"
