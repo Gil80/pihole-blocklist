@@ -2,14 +2,14 @@ Read this first to see where to change folder names to have things in `/var/sbin
 
 https://www.systutorials.com/docs/linux/man/8-unbound-anchor/
 
-# Compile, configure and install Unbound for Pi-hole on Raspbian 10 (buster)
+## Compile, configure and install Unbound for Pi-hole on Raspbian 10 (buster)
 with libevent for many outgoing ports (outgoing-range, num-queries-per-thread)
 with libhiredis for Redis as backend (cachedb)
 
 ## Requirements
 there is no Unbound installed via the package management of the operating system
 
--- System changes (ONLY ON FIRST INSTALLATION/COMPILATION) --
+### System changes (ONLY ON FIRST INSTALLATION/COMPILATION)
 
 `sudo nano /etc/sysctl.conf`
 
@@ -24,7 +24,8 @@ net.core.netdev_max_backlog = 1024
 net.ipv4.tcp_fastopen = 3
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_max_syn_backlog = 512
-net.ipv4.tcp_slow_start_after_idle = 0```
+net.ipv4.tcp_slow_start_after_idle = 0
+```
 
 
 `sudo sysctl -p`
